@@ -15,12 +15,18 @@ return [
             'path' => __DIR__ . '/../logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
-		
-		// Database settings
-		'database' => [
-			'dsn' => 'mysql:host=localhost;dbname=fanfare;charset=utf8',
-			'username' => 'root',
-			'password' => ''
-		]
+
+        // Database settings
+        'database' => [
+            'dsn' => isset($_ENV['PLAYBOOK_SERVER_DB_DSN']) ?
+                $_ENV['PLAYBOOK_SERVER_DB_DSN'] :
+                'mysql:host=localhost;dbname=fanfare;charset=utf8',
+            'username' => isset($_ENV['PLAYBOOK_SERVER_DB_USERNAME']) ?
+                $_ENV['PLAYBOOK_SERVER_DB_USERNAME'] :
+                'root',
+            'password' => isset($_ENV['PLAYBOOK_SERVER_DB_PASSWORD']) ?
+                $_ENV['PLAYBOOK_SERVER_DB_PASSWORD'] :
+                ''
+        ]
     ],
 ];
