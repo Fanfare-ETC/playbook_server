@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9000
+        },
+        {
+            "name": "Launch currently open script",
+            "type": "php",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "port": 9000
+        },
+        {
+            "name": "Launch PHP web server",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceRoot}/public/index.php",
+            "runtimeArgs": [
+                "-S", "0.0.0.0:8080",
+                "-t", "public"
+            ],
+            "cwd": "${workspaceRoot}",
+            "externalConsole": true
+        }
+    ]
+}
