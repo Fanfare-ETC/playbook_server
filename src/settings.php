@@ -18,15 +18,12 @@ return [
 
         // Database settings
         'database' => [
-            'dsn' => isset($_ENV['PLAYBOOK_SERVER_DB_DSN']) ?
-                $_ENV['PLAYBOOK_SERVER_DB_DSN'] :
+            'dsn' => isset($_ENV['DB_DSN']) ? $_ENV['DB_DSN'] :
                 'mysql:host=localhost;dbname=fanfare;charset=utf8',
-            'username' => isset($_ENV['PLAYBOOK_SERVER_DB_USERNAME']) ?
-                $_ENV['PLAYBOOK_SERVER_DB_USERNAME'] :
-                'root',
-            'password' => isset($_ENV['PLAYBOOK_SERVER_DB_PASSWORD']) ?
-                $_ENV['PLAYBOOK_SERVER_DB_PASSWORD'] :
-                ''
+            'username' => isset($_ENV['DB_USERNAME']) ?
+                $_ENV['DB_USERNAME'] : 'root',
+            'password' => isset($_ENV['DB_PASSWORD']) ?
+                $_ENV['DB_PASSWORD'] : ''
         ]
     ],
 ];
