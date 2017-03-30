@@ -15,12 +15,15 @@ return [
             'path' => __DIR__ . '/../logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
-		
-		// Database settings
-		'database' => [
-			'dsn' => 'mysql:host=localhost;dbname=fanfare;charset=utf8',
-			'username' => 'root',
-			'password' => ''
-		]
+
+        // Database settings
+        'database' => [
+            'dsn' => isset($_ENV['DB_DSN']) ? $_ENV['DB_DSN'] :
+                'mysql:host=localhost;dbname=fanfare;charset=utf8',
+            'username' => isset($_ENV['DB_USERNAME']) ?
+                $_ENV['DB_USERNAME'] : 'root',
+            'password' => isset($_ENV['DB_PASSWORD']) ?
+                $_ENV['DB_PASSWORD'] : ''
+        ]
     ],
 ];
