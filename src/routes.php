@@ -11,16 +11,33 @@ $app->get('/events', function ($request, $response) {
 	return $response->withJson($data);
 });
 */
-$app->post('/events', function ($request, $response) {
+$app->post('/players', function ($request, $response) {
 	$parsedBody = $request->getParsedBody();
-	$sectionId = $parsedBody['id'];
+	//$sectionId = $parsedBody['id'];
 	$userId = $parsedBody['userId'];
 	$userName = $parsedBody['userName'];
 	//$seatNo = $parsedBody['SeatNo'];
-	$insertStatement = $this->database->insert(array('UserName', 'UserId', 'SecId'))
-									->into('players')
-									->values(array($userName, $userId, $sectionId));
-	$insertId = $insertStatement->execute(false);
+	$selectStatement = $this->database->select(array('UserId', 'UserName'))
+									->from('players')
+									->where('UserId', '=', $userId);
+	$stmt = $selectStatement->execute();
+	$row = $stmt->fetch();
+	//$data[] = array($row['UserId'], $row['UserName']);
+	if($stmt->rowCount() < 1){
+		$insertStatement = $this->database->insert(array('UserName', 'UserId'))
+										->into('players')
+										->values(array($userName, $userId));
+		$insertId = $insertStatement->execute(false);
+	}
+	else if($row['UserName'] != $userName){
+		$updateStatement = $this->database->update(array('UserName' => $userName))
+										->table('players')
+										->where('UserId', '=', $userId);
+		$stmt = $updateStatement->execute();
+	}
+	else{
+		return $response->write("player already exists");
+	}
 	//print_r($request->getQueryParam('stadiumSeatNumber'));
 	//print_r($parsedBody['stadiumSeatNumber']);
 	return $response;
@@ -149,6 +166,42 @@ $app->post('/move', function ($request, $response) {
 	$stmt = $selectStatement->execute();
 	$data = $stmt->fetchAll();
 	return $response->withJson($data);
+	//print_r($request->getQueryParam('stadiumSeatNumber'));
+	//print_r($parsedBody['stadiumSeatNumber']);
+	//return $data;
+});
+
+$app->post('/myTrophy', function ($request, $response) {
+				  
+	$parsedBody = $request->getParsedBody();
+	$userId = $parsedBody['id'];
+	$selectStatement = $this->database->prepare(
+		'SELECT `playerId`, `trophy`.`trophyId`, `trophy`.`trophyName` '.
+		'FROM `playertrophy` '.
+		'RIGHT OUTER JOIN `trophy` ON '.
+			'`playertrophy`.`trophyId` = `trophy`.`trophyId` AND '.
+			'`playertrophy`.`playerId` = :userId'
+	);
+	$selectStatement->bindParam(':userId', $userId, PDO::PARAM_STR);
+	/*
+	$selectStatement = $this->database->select(array('playerId', 'playertrophy.trophyId'))
+									  ->from('playertrophy')
+									  //->where('playerId', '=', $userId)
+									  ->join('trophy', 'playertrophy.trophyId = trophy.trophyId AND playertrophy.playerId = :userId')
+									  ;
+	$selectStatement->bindParam(':userId', $userId, PDO::PARAM_STR);
+	*/
+	/*$joinStatement = $this->database->prepare("SELECT *
+											FROM trophy");*/
+    //$joinStatement->bindParam(':userId', $userId, PDO::PARAM_STR);
+	if ($selectStatement->execute()) {
+		$data = $selectStatement->fetchAll();
+		return $response->withJson($data);
+	} else {
+		throw new Exception('Error fetching trophies from the database');
+	}
+	//echo $response;
+	//return $response;
 	//print_r($request->getQueryParam('stadiumSeatNumber'));
 	//print_r($parsedBody['stadiumSeatNumber']);
 	//return $data;
