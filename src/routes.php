@@ -213,7 +213,8 @@ $app->post('/myTrophy', function ($request, $response) {
 		'FROM `playertrophy` '.
 		'RIGHT OUTER JOIN `trophy` ON '.
 			'`playertrophy`.`trophyId` = `trophy`.`trophyId` AND '.
-			'`playertrophy`.`playerId` = :userId'
+			'`playertrophy`.`playerId` = :userId '.
+		'ORDER BY `trophyId` ASC'
 	);
 	$selectStatement->bindParam(':userId', $userId, PDO::PARAM_STR);
 	/*
