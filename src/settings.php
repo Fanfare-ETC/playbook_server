@@ -23,7 +23,7 @@ return [
             'username' => isset($_ENV['DB_USERNAME']) ?
                 $_ENV['DB_USERNAME'] : 'root',
             'password' => isset($_ENV['DB_PASSWORD']) ?
-                $_ENV['DB_PASSWORD'] : ''
+                $_ENV['DB_PASSWORD'] : 'fanfare'
         ]
     ],
 ];

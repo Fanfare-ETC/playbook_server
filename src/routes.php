@@ -209,7 +209,7 @@ $app->post('/myTrophy', function ($request, $response) {
 	$parsedBody = $request->getParsedBody();
 	$userId = $parsedBody['id'];
 	$selectStatement = $this->database->prepare(
-		'SELECT `playerId`, `trophy`.`trophyId`, `trophy`.`description` '.
+		'SELECT `playerId`, `trophy`.`trophyId`, `trophy`.`description`, `trophy`.`trophyName`, `trophy`.`category`, `trophy`.`color` '.
 		'FROM `playertrophy` '.
 		'RIGHT OUTER JOIN `trophy` ON '.
 			'`playertrophy`.`trophyId` = `trophy`.`trophyId` AND '.
