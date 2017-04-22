@@ -26,6 +26,22 @@ $app->add(function ($req, $res, $next) {
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 });
 
+$app->get('/clearLeaderboard', function ($request, $response) {
+	$parsedBody = $request->getParsedBody();
+
+	$statement1 = $this->database->prepare('SET FOREIGN_KEY_CHECKS = 0');
+	$statement2 = $this->database->prepare('TRUNCATE players');
+	$statement3 = $this->database->prepare('SET FOREIGN_KEY_CHECKS = 1');
+	$stmt1 = $statement1->execute();
+	$stmt2 = $statement2->execute();
+	$stmt3 = $statement3->execute();
+	//$data = $stmt->fetch();
+	return $response;
+	//print_r($request->getQueryParam('stadiumSeatNumber'));
+	//print_r($parsedBody['stadiumSeatNumber']);
+	//return $data;
+});
+
 $app->post('/players', function ($request, $response) {
 	$parsedBody = $request->getParsedBody();
 	//$sectionId = $parsedBody['id'];
