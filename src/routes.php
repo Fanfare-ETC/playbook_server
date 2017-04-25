@@ -88,9 +88,9 @@ $app->post('/updateTrophy', function ($request, $response) {
 	$row = $stmt->fetch();
 	//$data[] = array($row['UserId'], $row['UserName']);
 	if($stmt->rowCount() < 1){
-		$insertStatement = $this->database->insert(array('playerId', 'trophyId'))
+		$insertStatement = $this->database->insert(array('playerId', 'trophyId', 'Date'))
 										->into('playertrophy')
-										->values(array($userId, $trophyId));
+										->values(array($userId, $trophyId, date("l d/m Y")));
 		$insertId = $insertStatement->execute(false);
 	}
 /*	else if($row['UserName'] != $userName){
@@ -240,7 +240,7 @@ $app->post('/myTrophy', function ($request, $response) {
 	$parsedBody = $request->getParsedBody();
 	$userId = $parsedBody['id'];
 	$selectStatement = $this->database->prepare(
-		'SELECT `playerId`, `trophy`.`trophyId`, `trophy`.`description`, `trophy`.`trophyName`, `trophy`.`category`, `trophy`.`color` '.
+		'SELECT `playerId`, `Date`, `trophy`.`trophyId`, `trophy`.`description`, `trophy`.`trophyName`, `trophy`.`category`, `trophy`.`color` '.
 		'FROM `playertrophy` '.
 		'RIGHT OUTER JOIN `trophy` ON '.
 			'`playertrophy`.`trophyId` = `trophy`.`trophyId` AND '.
