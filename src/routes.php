@@ -163,7 +163,7 @@ $app->get('/leaderboard', function ($request, $response) {
 
 	//print_r($high);				  
 
-	$selectStatement = $this->database->select(array('UserName', 'PredictionScore', 'CollectionScore', '(PredictionScore+CollectionScore) AS Total'))
+	$selectStatement = $this->database->select(array('UserName', 'PredictionScore', 'CollectionScore', 'Badge', '(PredictionScore+CollectionScore) AS Total'))
 									  ->from('players')
 									  ->orderBy('Total', 'DESC')
 									  ->limit(10,0)
@@ -184,7 +184,7 @@ $app->get('/leaderboardP', function ($request, $response) {
 
 	//print_r($high);				  
 
-	$selectStatement = $this->database->select(array('UserName', 'PredictionScore', 'CollectionScore', '(PredictionScore+CollectionScore) AS Total'))
+	$selectStatement = $this->database->select(array('UserName', 'PredictionScore', 'CollectionScore', 'Badge', '(PredictionScore+CollectionScore) AS Total'))
 									  ->from('players')
 									  ->orderBy('PredictionScore', 'DESC')
 									  ->limit(10,0)
@@ -205,7 +205,7 @@ $app->get('/leaderboardC', function ($request, $response) {
 
 	//print_r($high);				  
 
-	$selectStatement = $this->database->select(array('UserName', 'PredictionScore', 'CollectionScore', '(PredictionScore+CollectionScore) AS Total'))
+	$selectStatement = $this->database->select(array('UserName', 'PredictionScore', 'CollectionScore', 'Badge', '(PredictionScore+CollectionScore) AS Total'))
 									  ->from('players')
 									  ->orderBy('CollectionScore', 'DESC')
 									  ->limit(10,0)
@@ -309,6 +309,22 @@ $app->post('/updateScore', function ($request, $response) {
 	//return $data;
 });
 
+$app->post('/updateBadge', function ($request, $response) {
+				  
+	$parsedBody = $request->getParsedBody();
+	$userId = $parsedBody['id'];
+
+	$updateStatement = $this->database->update(array('Badge' => 'true'))
+									  ->table('players')
+									  ->where('id', '=', $userId);
+	
+	$stmt = $updateStatement->execute();
+	//$data = $stmt->fetch();
+	return $response;
+	//print_r($request->getQueryParam('stadiumSeatNumber'));
+	//print_r($parsedBody['stadiumSeatNumber']);
+	//return $data;
+});
 
 /*
 $app->get('/[{name}]', function ($request, $response, $args) {
