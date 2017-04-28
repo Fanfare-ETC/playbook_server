@@ -314,9 +314,9 @@ $app->post('/updateBadge', function ($request, $response) {
 	$parsedBody = $request->getParsedBody();
 	$userId = $parsedBody['id'];
 
-	$updateStatement = $this->database->update(array('Badge' => 'true'))
+	$updateStatement = $this->database->update(array('Badge' => true))
 									  ->table('players')
-									  ->where('id', '=', $userId);
+									  ->where('UserId', '=', $userId);
 	
 	$stmt = $updateStatement->execute();
 	//$data = $stmt->fetch();
