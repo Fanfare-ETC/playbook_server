@@ -220,6 +220,27 @@ $app->get('/leaderboardC', function ($request, $response) {
 	//return $data;
 });
 
+$app->get('/leaderboardB', function ($request, $response) {
+	//$parsedBody = $request->getParsedBody();
+	//$sectionId = $parsedBody['id'];		
+
+	//print_r($high);				  
+
+	$selectStatement = $this->database->select(array('UserName', 'PredictionScore', 'CollectionScore', 'Badge', '(PredictionScore+CollectionScore) AS Total'))
+									  ->from('players')
+									  ->orderBy('Badge', 'DESC')
+									  ->limit(10,0)
+									//  ->where('SecScore', '=', $high)
+									  ;
+	//$selectStatement->having('MAX(SecScore)', '<', 10000);								  
+	$stmt = $selectStatement->execute();
+	$data = $stmt->fetchAll();
+	return $response->withJson($data);
+	//print_r($request->getQueryParam('stadiumSeatNumber'));
+	//print_r($parsedBody['stadiumSeatNumber']);
+	//return $data;
+});
+
 $app->post('/move', function ($request, $response) {
 				  
 	$parsedBody = $request->getParsedBody();
