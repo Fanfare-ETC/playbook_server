@@ -125,7 +125,7 @@ $app->post('/score', function ($request, $response) {
 $app->post('/selfScore', function ($request, $response) {
 	$parsedBody = $request->getParsedBody();
 	$userId = $parsedBody['id'];
-	$selectStatement = $this->database->select(array('PredictionScore', 'CollectionScore', '(PredictionScore+CollectionScore) AS Total'))
+	$selectStatement = $this->database->select(array('PredictionScore', 'CollectionScore', 'Badge', '(PredictionScore+CollectionScore) AS Total'))
 									  ->from('players')
 									  ->where('UserId', '=', $userId)
 									  ;
