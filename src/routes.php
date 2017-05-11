@@ -90,7 +90,7 @@ $app->post('/updateTrophy', function ($request, $response) {
 	if($stmt->rowCount() < 1){
 		$insertStatement = $this->database->insert(array('playerId', 'trophyId', 'Date'))
 										->into('playertrophy')
-										->values(array($userId, $trophyId, date("l d/m Y")));
+										->values(array($userId, $trophyId, date("l m/d Y")));
 		$insertId = $insertStatement->execute(false);
 	}
 /*	else if($row['UserName'] != $userName){
